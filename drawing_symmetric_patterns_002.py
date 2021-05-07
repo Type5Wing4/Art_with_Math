@@ -1,30 +1,31 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from mpl_toolkits.mplot3d import Axes3D
 
 def draw_symmetric_patterns(a=1.0,b=4.0,c=5.0,d=3.0):
 
-    r = 2.0
+    ys = np.zeros((90,45,2))
+    for phi in range(0,90,2):
+        for theta in range(0,45,2):
+                ys[phi][theta][0] = math.sin(a*phi) * math.cos(b*theta) * math.cos((2*a+c)*theta)
+                ys[phi][theta][1] = math.cos(c*phi) * math.sin(d*theta) * math.sin((b+2*d)*theta)
 
-    ys = np.zeros((90,45,3))
-    for phi in range(0,90,1):
-        for theta in range(0,45,1):
-                ys[phi][theta][0] = r * math.sin(a*phi) * math.sin(b*theta)
-                ys[phi][theta][1] = r * math.cos(c*phi) * math.sin(d*theta)
-                ys[phi][theta][2] = r * math.sin(theta)
+    ys = ys.reshape(-1,2)
 
-    ys = ys.reshape(-1,3)
+    return ys
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111,projection='3d')
-    ax.scatter3D(ys.T[0], ys.T[1], ys.T[2], s=0.5)
-    plt.show()
 
 
 if __name__ == '__main__':
 
-    draw_symmetric_patterns(a=1.0,b=1.0,c=3.0,d=5.0)
-    draw_symmetric_patterns(a=1.0,b=4.0,c=5.0,d=3.0)
-    draw_symmetric_patterns(a=2.0,b=4.0,c=5.0,d=3.0)
-    draw_symmetric_patterns(a=1.0,b=4.0,c=7.0,d=1.0)
+    fig, axes = plt.subplots(ncols=9,nrows=9,subplot_kw=({"xticks":(),"yticks":()}))
+    counter = 0
+    for a in range(7,10):
+        for b in range(7,10):
+            for c in range(7,10):
+                for d in range(7,10):
+                    ys = draw_symmetric_patterns(a,b,c,d)
+                    axes[counter//9,counter%9].scatter(ys.T[0], ys.T[1], s=0.1)
+                    counter += 1
+
+    plt.show()

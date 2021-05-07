@@ -5,10 +5,10 @@ import math
 def draw_symmetric_patterns(a=1.0,b=4.0,c=5.0,d=3.0):
 
     ys = np.zeros((90,45,2))
-    for phi in range(0,90,1):
-        for theta in range(0,45,1):
+    for phi in range(0,90,2):
+        for theta in range(0,45,2):
                 ys[phi][theta][0] = math.sin(a*phi) * math.sin(b*theta)
-                ys[phi][theta][1] = math.cos(c*phi) * math.sin(d*theta)
+                ys[phi][theta][1] = math.cos(c*phi) * math.cos(d*theta)
 
     ys = ys.reshape(-1,2)
 
